@@ -1,5 +1,7 @@
 package DAO;
 
+import entetys.Busnis;
+import entetys.Dmc;
 import entetys.Meniu;
 import entetys.Users;
 
@@ -33,22 +35,62 @@ public class AdminDAO {
             e.printStackTrace();
         }
     }
-    public static void dmcAdd(Meniu meniuAdd) {
+    public static void dmcAdd(Dmc dmcadd) {
+        try {
+            String url = "jdbc:mysql://localhost:3306/" + DATABASE_NAME;
+            Connection connection = DriverManager.getConnection(url, "root", "");
+            System.out.println("valgerasčio įvedimas ");
+            System.out.println("yveskite valgeraščio pavadinima:");
+            String meniuName = sc.next();
+            System.out.println("Įveskite patiekalo ID:");
+            int foodId = sc.nextInt();
+            System.out.println("Įveskite verslo ID:");
+            int busnisId = sc.nextInt();
+            String query = "INSERT INTO dmc (Dmc_id,Dm_name, Food_id,busnes_id) VALUES (0,'" + meniuName + "','" + foodId + "','" + busnisId + "');";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.executeUpdate();
+            connection.close();
+            System.out.println("sėkmingai patalpintas valgeraštis");
+        } catch (SQLException e) {
+            System.out.println("Nepavyko patalpinti:");
+            e.printStackTrace();
+        }
+    }
+    public static void dmcUpdate(Dmc dmcup) {
+        try {
+            String url = "jdbc:mysql://localhost:3306/" + DATABASE_NAME;
+            Connection connection = DriverManager.getConnection(url, "root", "");
+            System.out.println("valgerasčio įvedimas ");
+            System.out.println("yveskite valgeraščio pavadinima:");
+            String meniuName = sc.next();
+            System.out.println("Įveskite patiekalo ID:");
+            int foodId = sc.nextInt();
+            System.out.println("Įveskite verslo ID:");
+            int busnisId = sc.nextInt();
+            String query = "UPDATE dmc SET Dm_name = ? , adress = ? , city=? WHERE id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.executeUpdate();
+            connection.close();
+            System.out.println("sėkmingai patalpintas valgeraštis");
+        } catch (SQLException e) {
+            System.out.println("Nepavyko patalpinti:");
+            e.printStackTrace();
+        }
+    }
+    public static void addBusnis(Busnis busnisAdd) {
         try {
             String url = "jdbc:mysql://localhost:3306/" + DATABASE_NAME;
             Connection connection = DriverManager.getConnection(url, "root", "");
             System.out.println("restorano įvedimas ");
-            System.out.println("restorano id:");
-            int dishName = sc.nextInt();
-            System.out.println("Patiekalo aprašimas:");
-            int discription = sc.nextInt();
-
-            //Order_id	User_id	Food_id	Confirmation
-            String query = "INSERT INTO meniu(Dmc_id,Dm_name, Food_id,busnes_id) VALUES (0,'" + dishName + "','" + discription + "');";
+            System.out.println("yveskite verslo pavadinima:");
+            String busnisName = sc.next();
+            System.out.println("Įveskite adresa");
+            String address = sc.next();
+            String query = "INSERT INTO busnis(Busnis_id,Busnis_name, Address) VALUES (0,'" + busnisName + "','" + address + "');";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.executeUpdate();
             connection.close();
-            System.out.println("sėkmingai patalpintas meniu");
+            System.out.println("sėkmingai patalpintas valgeraštis");
         } catch (SQLException e) {
             System.out.println("Nepavyko patalpinti:");
             e.printStackTrace();
